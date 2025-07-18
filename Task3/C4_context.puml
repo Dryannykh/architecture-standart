@@ -1,0 +1,70 @@
+@startuml
+title MVP Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Клиент банка")
+Person(call_center_employee, "Сотрудник кол-центра")
+Person(back_department_employee, "Сотрудник бэк-офиса")
+Person(front_department_employee, "Сотрудник фронт-офиса")
+Person(it_employee, "Сотрудник IT-отдела")
+System(website, "Сайт", "PHP, React.js")
+System(mail_server, "Почтовый сервер")
+System(internet_bank_system, "Интернет-банк")
+System(call_center_system, "Система кол-центра")
+System(deposit_system, "Система по работе с депозитами")
+System(abs, "АБС")
+System(sms_gateway_system, "СМС-шлюз телеком-оператора")
+System_Ext(operator, "Телеком-оператор")
+
+Container_Boundary(internet_bank_system, "Интернет-банк") {
+  Container(internet_bank, "Интернет-банк", "ASP.NET MVC 4.5")
+  ContainerDb(internet_bank_db, "База данных интернет-банка", "MS SQL")
+}
+Container_Boundary(call_center_system, "Система кол-центра") {
+  Container(call_center_system_front, "Веб-интерфейс кол-центра", "React.js")
+  Container(call_center_system_back, "Бэкенд кол-центра", "Java Spring Boot")
+  ContainerDb(call_center_system_db, "База данных кол-центра", "PostgreSQL")
+}
+Container_Boundary(deposit_system, "Система по работе с депозитами") {
+  Container(deposit_system_front, "Веб-интерфейс системы по работе с депозитами", "React.js")
+  Container(deposit_system_back, "Бэкенд системы по работе с депозитами", "Java Spring Boot")
+  ContainerDb(deposit_system_db, "База данных системы по работе с депозитами", "PostgreSQL")
+}
+Container_Boundary(abs, "АБС") {
+  Container(abs_client, "АБС", "Delphi")
+  ContainerDb(abs_db, "База данных АБС", "Oracle")
+}
+Container_Boundary(sms_gateway_system, "СМС-шлюз телеком-оператора") {
+  Container(sms_gateway, "СМС-шлюз телеком-оператора")
+  ContainerDb(sms_gateway_db, "База данных СМС-шлюза")
+}
+
+Rel(user, website, "UC1, UC2")
+Rel(user, internet_bank, "UC3, UC4")
+Rel(internet_bank, internet_bank_db, "Работа с данными")
+Rel(call_center_employee, call_center_system_front, "UC2")
+Rel(call_center_system_front, call_center_system_back, "Обработка данных")
+Rel(call_center_system_back, call_center_system_db, "Работа с данными")
+Rel(front_department_employee, abs_client, "UC2")
+Rel(abs_client, abs_db, "Работа с данными")
+Rel(website, call_center_system_back, "UC2")
+Rel(call_center_system_back, abs_client, "UC2")
+Rel(back_department_employee, abs_client, "UC2, UC4")
+Rel(internet_bank, abs_db, "Работа с данными")
+Rel(abs_client, sms_gateway, "UC4")
+Rel(sms_gateway, sms_gateway_db, "Работа с данными")
+Rel(sms_gateway, operator, "UC4")
+Rel(it_employee, deposit_system_front, "UC5")
+Rel(deposit_system_front, deposit_system_back, "Обработка данных")
+Rel(deposit_system_back, deposit_system_db, "Работа с данными")
+Rel(back_department_employee, deposit_system_front, "UC6, UC7")
+Rel(deposit_system_back, abs_client, "UC4")
+Rel(internet_bank, deposit_system_back, "UC3, UC4")
+Rel(website, deposit_system_back, "UC1")
+Rel(mail_server, deposit_system_back, "UC8")
+
+
+@enduml
