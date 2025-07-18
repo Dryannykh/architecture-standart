@@ -1,0 +1,36 @@
+@startuml
+title MVP Context Diagram
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Клиент банка")
+Person(call_center_employee, "Сотрудник кол-центра")
+Person(back_department_employee, "Сотрудник бэк-офиса")
+Person(front_department_employee, "Сотрудник фронт-офиса")
+Person(it_employee, "Сотрудник IT-отдела")
+System(website, "Сайт банка")
+System(call_center, "Система кол-центра")
+System(internet_bank, "Интернет-банк")
+System(deposit_system, "Система по работе с депозитами")
+System(abs, "АБС")
+System(sms_gateway, "СМС-шлюз телеком-оператора")
+System(mail_server, "Почтовый сервер")
+System_Ext(operator, "Телеком-оператор")
+
+Rel(user, website, "UC1, UC2")
+Rel(user, internet_bank, "UC3, UC4")
+Rel(call_center_employee, call_center, "UC2")
+Rel(front_department_employee, abs, "UC2")
+Rel(website, call_center, "UC2")
+Rel(call_center, abs, "UC2")
+Rel(back_department_employee, abs, "UC2, UC4")
+Rel(internet_bank, deposit_system, "UC3, UC4")
+Rel(website, deposit_system, "UC1")
+Rel(deposit_system, abs, "UC4")
+Rel(abs, sms_gateway, "UC4")
+Rel(sms_gateway, operator, "UC4")
+Rel(it_employee, deposit_system, "UC5")
+Rel(mail_server, deposit_system, "UC8")
+Rel(back_department_employee, deposit_system, "UC6, UC7")
+
+@enduml
