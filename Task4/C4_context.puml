@@ -32,7 +32,7 @@ Rel(deposit_system_back, call_center_system_back, "UC1")
 Rel(deposit_system_front, deposit_system_back, "Обработка данных")
 Rel(deposit_system_back, deposit_system_db, "Работа с данными")
 Rel(deposit_system_back, sftp_server, "UC3")
-Rel(sftp_server, partner_call_center, "UC3")
+Rel(partner_call_center, sftp_server, "Получение файла")
 Rel(partner_call_center_employee, partner_call_center, "Работа с заявками")
 
 

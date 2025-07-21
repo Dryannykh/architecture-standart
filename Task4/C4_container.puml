@@ -14,7 +14,7 @@ Rel(deposit_system, call_center, "UC1")
 Rel(call_center, deposit_system, "UC1")
 Rel(call_center_employee, call_center, "UC2")
 Rel(deposit_system, sftp_server, "UC3")
-Rel(sftp_server, partner_call_center, "UC3")
+Rel(partner_call_center, sftp_server, "Получение файла")
 Rel(partner_call_center_employee, partner_call_center, "Работа с заявками")
 
 @enduml
