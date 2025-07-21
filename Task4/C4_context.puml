@@ -6,13 +6,11 @@ top to bottom direction
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(call_center_employee, "Сотрудник кол-центра")
-Person(it_employee, "Сотрудник IT-отдела")
 Person_Ext(partner_call_center_employee, "Сотрудник партнерского кол-центра")
 System(deposit_system, "Система по работе с депозитами")
 System(call_center_system, "Система кол-центра")
-System(mail_server, "Почтовый сервер")
-System(mail_gateway, "Почтовый шлюз")
-System_Ext(partner_mail_server, "Партнерский почтовый сервер")
+System(sftp_server, "SFTP-сервер")
+System_Ext(partner_call_center, "Партнерский кол-центр")
 
 Container_Boundary(call_center_system, "Система кол-центра") {
   Container(call_center_system_front, "Веб-интерфейс кол-центра", "React.js")
@@ -31,16 +29,11 @@ Rel(call_center_system_front, call_center_system_back, "Обработка да�
 Rel(call_center_system_back, call_center_system_db, "Работа с данными")
 Rel(call_center_system_back, deposit_system_back, "UC1")
 Rel(deposit_system_back, call_center_system_back, "UC1")
-Rel(it_employee, deposit_system_front, "UC3")
 Rel(deposit_system_front, deposit_system_back, "Обработка данных")
 Rel(deposit_system_back, deposit_system_db, "Работа с данными")
-Rel(mail_server, mail_gateway, "Обмен письмами")
-Rel(mail_gateway, partner_mail_server, "Обмен письмами")
-Rel(partner_mail_server, mail_gateway, "Обмен письмами")
-Rel(mail_gateway, mail_server, "Обмен письмами")
-Rel(partner_call_center_employee, partner_mail_server, "UC4")
-Rel(mail_server, deposit_system, "UC4")
-Rel(deposit_system, mail_server, "UC4")
+Rel(deposit_system_back, sftp_server, "UC3")
+Rel(sftp_server, partner_call_center, "UC3")
+Rel(partner_call_center_employee, partner_call_center, "Работа с заявками")
 
 
 @enduml

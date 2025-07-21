@@ -4,24 +4,17 @@ title MVP Context Diagram for call center task
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(call_center_employee, "Сотрудник кол-центра")
-Person(it_employee, "Сотрудник IT-отдела")
 Person_Ext(partner_call_center_employee, "Сотрудник партнерского кол-центра")
 System(deposit_system, "Система по работе с депозитами")
 System(call_center, "Система кол-центра")
-System(mail_server, "Почтовый сервер")
-System(mail_gateway, "Почтовый шлюз")
-System_Ext(partner_mail_server, "Партнерский почтовый сервер")
+System(sftp_server, "SFTP-сервер")
+System_Ext(partner_call_center, "Партнерский кол-центр")
 
 Rel(deposit_system, call_center, "UC1")
 Rel(call_center, deposit_system, "UC1")
 Rel(call_center_employee, call_center, "UC2")
-Rel(it_employee, deposit_system, "UC3")
-Rel(mail_server, mail_gateway, "Обмен письмами")
-Rel(mail_gateway, partner_mail_server, "Обмен письмами")
-Rel(partner_mail_server, mail_gateway, "Обмен письмами")
-Rel(mail_gateway, mail_server, "Обмен письмами")
-Rel(partner_call_center_employee, partner_mail_server, "UC4")
-Rel(mail_server, deposit_system, "UC4")
-Rel(deposit_system, mail_server, "UC4")
+Rel(deposit_system, sftp_server, "UC3")
+Rel(sftp_server, partner_call_center, "UC3")
+Rel(partner_call_center_employee, partner_call_center, "Работа с заявками")
 
 @enduml
